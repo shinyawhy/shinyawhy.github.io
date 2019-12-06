@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>Qt学习笔记9-存储容器 | XyLan</title><meta name="description" content="Qt学习笔记9-存储容器"><meta name="keywords" content=""><meta name="author" content="XyLan"><meta name="copyright" content="XyLan"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Qt学习笔记9-存储容器"><meta name="twitter:description" content="Qt学习笔记9-存储容器"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png"><meta property="og:type" content="article"><meta property="og:title" content="Qt学习笔记9-存储容器"><meta property="og:url" content="https://blog.xylan.cn/2019/12/05/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09-%E5%AD%98%E5%82%A8%E5%AE%B9%E5%99%A8/"><meta property="og:site_name" content="XyLan"><meta property="og:description" content="Qt学习笔记9-存储容器"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.css"><link rel="canonical" href="https://blog.xylan.cn/2019/12/05/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09-%E5%AD%98%E5%82%A8%E5%AE%B9%E5%99%A8/"><link rel="prev" title="Qt学习之路11-model view架构" href="https://blog.xylan.cn/2019/12/06/Qt%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF11-model%20view%E6%9E%B6%E6%9E%84/"><link rel="next" title="Qt学习笔记8-文件" href="https://blog.xylan.cn/2019/12/04/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B08-%E6%96%87%E4%BB%B6/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"简","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  highlight_lang: 'true',
+  highlight_shrink: 'true',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  copyright: {"languages":{"author":"作者: XyLan","link":"链接: https://blog.xylan.cn/2019/12/05/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09-%E5%AD%98%E5%82%A8%E5%AE%B9%E5%99%A8/","source":"来源: XyLan","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  copy_copyright_js: true,
+  ClickShowText: {"text":"富强,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善","fontSize":"15px"},
+  medium_zoom: 'true',
+  Snackbar: {"bookmark":{"title":"Snackbar.bookmark.title","message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"}
+  
+}</script></head><body><div id="header"> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">XyLan</a></span><i class="fa fa-bars fa-fw toggle-menu pull_right close" aria-hidden="true"></i><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div></div></span><span class="pull_right" id="search_button"></span></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="lazyload avatar_img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'"></div><div class="mobile_post_data"><div class="mobile_data_item is_center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">12</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#Qt学习笔记9-存储容器"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">Qt学习笔记9-存储容器</span></a></li></ol></div></div><div id="body-wrap"><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Qt学习笔记9-存储容器"><span class="toc-number">1.</span> <span class="toc-text">Qt学习笔记9-存储容器</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png)"><div id="post-info"><div id="post-title"><div class="posttitle">Qt学习笔记9-存储容器</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-12-05<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-12-05</time><div class="post-meta-wordcount"><i class="fa fa-eye post-meta__icon" aria-hidden="true">       </i><span>阅读量: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="Qt学习笔记9-存储容器"><a href="#Qt学习笔记9-存储容器" class="headerlink" title="Qt学习笔记9-存储容器"></a>Qt学习笔记9-存储容器</h1><p>存储容器（containers）有时候也被称为集合（collections），是能够在内存中存储其它特定类型的对象，通常是一些常用的数据结构，一般是通用模板类的形式。C++ 提供了一套完整的解决方案，作为标准模板库（Standard Template Library）的组成部分，也就是常说的 STL。</p>
+<p>Qt 提供了另外一套基于模板的容器类。相比 STL，这些容器类通常更轻量、更安全、更容易使用。如果你对 STL 不大熟悉，或者更喜欢 Qt 风格的 API，那么你就应该选择使用这些类。当然，你也可以在 Qt 中使用 STL 容器，没有任何问题。</p>
+<p>Qt 的容器类都不继承QObject，都提供了隐式数据共享、不可变的特性，并且为速度做了优化，具有较低的内存占用量等。另外一点比较重要的，它们是线程安全的。这些容器类是平台无关的，即不因编译器的不同而具有不同的实现；隐式数据共享，有时也被称作“写时复制（copy on write）”，这种技术允许在容器类中使用传值参数，但却不会出现额外的性能损失。</p>
+<p>Qt 提供了顺序存储容器：QList，QLinkedList，QVector，QStack和QQueue。对于绝大多数应用程序，QList是最好的选择。虽然它是基于数组实现的列表，但它提供了快速的向前添加和向后追加的操作。如果你需要链表，可以使用QLinkedList。如果你希望所有元素占用连续地址空间，可以选择QVector。QStack和QQueue则是 LIFO 和 FIFO 的。</p>
+<p>Qt 还提供了关联容器：QMap，QMultiMap，QHash，QMultiHash和QSet。带有“Multi”字样的容器支持在一个键上面关联多个值。“Hash”容器提供了基于散列函数的更快的查找，而非 Hash 容器则是基于二分搜索的有序集合。</p>
+<p>我们将 Qt 提供的各个容器类总结如下：</p>
+<ul>
+<li>QList<T>：这是至今为止提供的最通用的容器类。它将给定的类型 T 的对象以列表的形式进行存储，与一个整型的索引关联。QList在内部使用数组实现，同时提供基于索引的快速访问。我们可以使用 QList::append()和QList::prepend()在列表尾部或头部添加元素，也可以使用QList::insert()在中间插入。相比其它容器类，QList专门为这种修改操作作了优化。QStringList继承自QList<QString>。</li>
+<li>QLinkedList<T>：类似于 QList，除了它是使用遍历器进行遍历，而不是基于整数索引的随机访问。对于在中部插入大量数据，它的性能要优于QList。同时具有更好的遍历器语义（只要数据元素存在，QLinkedList的遍历器就会指向一个合法元素，相比而言，当插入或删除数据时，QList的遍历器就会指向一个非法值）。</li>
+<li>QVector<T>：用于在内存的连续区存储一系列给定类型的值。在头部或中间插入数据可能会非常慢，因为这会引起大量数据在内存中的移动。</li>
+<li>QStack<T>：这是QVector的子类，提供了后进先出（LIFO）语义。相比QVector，它提供了额外的函数：push()，pop()和top()。</li>
+<li>QQueue<T>：这是QList的子类，提供了先进先出（FIFO）语义。相比QList，它提供了额外的函数：enqueue()，dequeue()和head()。</li>
+<li>QSet<T>：提供单值的数学上面的集合，具有快速的查找性能。</li>
+<li>QMap&lt;Key, T&gt;：提供了字典数据结构（关联数组），将类型 T 的值同类型 Key 的键关联起来。通常，每个键与一个值关联。QMap以键的顺序存储数据；如果顺序无关，QHash提供了更好的性能。</li>
+<li>QMultiMap&lt;Key, T&gt;：这是QMap的子类，提供了多值映射：一个键可以与多个值关联。</li>
+<li>QHash&lt;Key, T&gt;：该类同QMap的接口几乎相同，但是提供了更快的查找。QHash以字母顺序存储数据。</li>
+<li>QMultiHash&lt;Key, T&gt;：这是QHash的子类，提供了多值散列。</li>
+</ul>
+<p>能够存储在容器中的数据必须是可赋值数据类型。所谓可赋值数据类型，是指具有默认构造函数、拷贝构造函数和赋值运算符的类型。绝大多数数据类型，包括基本类型，比如<code>int</code> 和 <code>double</code>，指针，Qt 数据类型，例如<code>QString</code>、<code>QDate</code>和<code>QTime</code>，都是可赋值数据类型。但是，<code>QObject</code>及其子类（<code>QWidget</code>、<code>QTimer</code>等）都不是。也就是说，你不能使用<code>QList&lt;QWidget&gt;</code>这种容器，因为<code>QWidget</code>的拷贝构造函数和赋值运算符不可用。如果你需要这种类型的容器，只能存储其指针，也就是<code>QList&lt;QWidget *&gt;</code>。</p>
+<p>如果要使用<code>QMap</code>或者<code>QHash</code>，作为键的类型必须提供额外的辅助函数。<code>QMap</code>的键必须提供<code>operator&lt;()</code>重载，<code>QHash</code>的键必须提供<code>operator==()</code>重载和一个名字是<code>qHash()</code>的全局函数。</p>
+<p>作为例子我们考虑如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct Movie</span><br><span class="line">&#123;</span><br><span class="line">    int id;</span><br><span class="line">    QString title;</span><br><span class="line">    QDate releaseDate;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>作为 struct，我们当做纯数据类使用。这个类没有额外的构造函数，因此编译器会为我们生成一个默认构造函数。同时，编译器还会生成默认的拷贝构造函数和赋值运算符。这就满足了将其放入容器类存储的条件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QList&lt;Movie&gt; movs;</span><br></pre></td></tr></table></figure>
+<p>Qt容器可以直接使用<code>QDataStream</code>进行存取。此时，容器中所存储的类型必须也能够使用<code>QDataStream</code>进行存储。这意味着，我们需要进行重载<code>operator&lt;&lt;()</code>和<code>operator&gt;&gt;()</code>运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">QDataStream &amp;operator&lt;&lt;(QDataStream &amp;out, const Movie &amp;movie)</span><br><span class="line">&#123;</span><br><span class="line">    out &lt;&lt; (quint32)movie.id &lt;&lt; movie.title</span><br><span class="line">        &lt;&lt; movie.releaseDate;</span><br><span class="line">    return out;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QDataStream &amp;operator&gt;&gt;(QDataStream &amp;in, Movie &amp;movie)</span><br><span class="line">&#123;</span><br><span class="line">    quint32 id;</span><br><span class="line">    QDate date;</span><br><span class="line"></span><br><span class="line">    in &gt;&gt; id &gt;&gt; movie.title &gt;&gt; date;</span><br><span class="line">    movie.id = (int)id;</span><br><span class="line">    movie.releaseDate = date;</span><br><span class="line">    return in;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据数据结构的相关内容，我们有必要对这些容器类的算法复杂性进行定量分析。算法复杂度关心的是在数据量增长时，容器的每一个函数究竟有多快（或者多慢）。例如，向QLinkedList中部插入数据是一个相当快的操作，并且与QLinkedList中已经存储的数据量无关。另一方面，如果QVector中已经保存了大量数据，向QVector中部插入数据会非常慢，因为在内存中，有一半的数据必须移动位置。为了描述算法复杂度，我们引入 O 记号（大写字母 O，读作“大 O”）：</p>
+<ul>
+<li>常量时间：O(1)。如果一个函数的运行时间与容器中数据量无关，我们说这个函数是常量时间的。QLinkedList::insert()就是常量时间的。</li>
+<li>对数时间：O(log n)。如果一个函数的运行时间是容器数据量的对数关系，我们说这个函数是对数时间的。qBinaryFind()就是对数时间的。</li>
+<li>线性时间：O(n)。如果一个函数的运行时间是容器数据量的线性关系，也就是说直接与数量相关，我们说这个函数是线性时间的。QVector::insert()就是线性时间的。</li>
+<li>线性对数时间：O(n log n)。线性对数时间要比线性时间慢，但是要比平方时间快。</li>
+<li>平方时间：O(n²)。平方时间与容器数据量的平方关系。</li>
+</ul>
+<p>基于上面的表示，我们看一下Qt顺序容器的算法复杂度</p>
+<table>
+<thead>
+<tr>
+<th>Qt顺序容器</th>
+<th>查找</th>
+<th>插入</th>
+<th>前方添加</th>
+<th>后方追加</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>QLinkList&lt;T&gt;</code></td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td><code>QList&lt;T&gt;</code></td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>统计O(1)</td>
+<td>统计O(1)</td>
+</tr>
+<tr>
+<td><code>QVector&lt;T&gt;</code></td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>统计O(1)</td>
+</tr>
+</tbody></table>
+<p><code>QVector</code>、<code>QHash</code>和<code>QSet</code>的头部添加是统计意义上的 O(log n)。然而，通过给定插入之前的元素个数来调用<code>QVector::reserve()</code>、<code>QHash::reserve()</code>和<code>QSet::reserve()</code>，我们可以把复杂度降到 O(1)。</p>
+<p><code>QVector&lt;T&gt;</code>、<code>QString</code>和<code>QByteArray</code>在连续内存空间中存储数据。<code>QList&lt;T&gt;</code>维护指向其数据的指针数组，提供基于索引的快速访问（如果 T 就是指针类型，或者是与指针大小相同的其它类型，那么 <code>QList</code> 的内部数组中存的就是其实际值，而不是其指针）。<code>QHash&lt;Key, T&gt;</code>维护一张散列表，其大小与散列中数据量相同。为避免每次插入数据都要重新分配数据空间，这些类都提供了多余实际值的数据位。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined" target="_blank" rel="noopener">XyLan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.xylan.cn/2019/12/05/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09-%E5%AD%98%E5%82%A8%E5%AE%B9%E5%99%A8/">https://blog.xylan.cn/2019/12/05/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09-%E5%AD%98%E5%82%A8%E5%AE%B9%E5%99%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.xylan.cn">XyLan</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.png"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg"><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2019/12/06/Qt%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF11-model%20view%E6%9E%B6%E6%9E%84/"><img class="prev_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>Qt学习之路11-model view架构</span></div></a></div><div class="next-post pull_right"><a href="/2019/12/04/Qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B08-%E6%96%87%E4%BB%B6/"><img class="next_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>Qt学习笔记8-文件</span></div></a></div></nav></div></div><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2019 By XyLan</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">简</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
+POWERMODE.shake = true; // turn off shake
+document.body.addEventListener('input', POWERMODE);
+</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/third-party/ClickShowText.js"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
